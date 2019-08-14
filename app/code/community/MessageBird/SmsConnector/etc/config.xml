@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <MessageBird_SmsConnector>
+            <version>1.0.0</version>
+        </MessageBird_SmsConnector>
+    </modules>
+
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <smsconnectorconfig translate="title">
+                                            <title>MessageBird SMS Order Notification Configuration</title>
+                                            <sort_order>100</sort_order>
+                                        </smsconnectorconfig>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+
+    <default>
+        <smsconnectorconfig>
+            <sendoncheckoutgroup>
+                <messagecustomer>Hi :firstname:! Thank you for your order #:orderid:. We'll start with it right away!</messagecustomer>
+                <messageseller>Woohoo! A new order #:orderid: has been placed.</messageseller>
+            </sendoncheckoutgroup>
+            <sendonorderstatuschangegroup>
+                <statuschangedmessage>Hi :firstname:! Just to let you know: the status of your order :orderid: has changed to :orderstatus:.</statuschangedmessage>
+                <statustoshippedmessage>Hi :firstname:! Great news: your order is on the way.</statustoshippedmessage>
+            </sendonorderstatuschangegroup>
+        </smsconnectorconfig>
+    </default>
+
+    <global>
+        <models>
+            <messagebird_smsconnector>
+                <class>MessageBird_SmsConnector_Model</class>
+            </messagebird_smsconnector>
+            <smsconnector>
+                <class>MessageBird_SmsConnector_Model</class>
+            </smsconnector>
+        </models>
+
+        <helpers>
+            <smsconnector>
+                <class>MessageBird_SmsConnector_Helper</class>
+            </smsconnector>
+        </helpers>
+
+        <events>
+            <sales_order_place_after>
+                <observers>
+                    <messagebird_smsconnector_model_observer>
+                        <class>messagebird_smsconnector/observer</class>
+                        <type>singleton</type>
+                        <method>orderPlaced</method>
+                    </messagebird_smsconnector_model_observer>
+                </observers>
+            </sales_order_place_after>
+            <sales_order_save_after>
+                <observers>
+                    <messagebird_smsconnector_model_observer>
+                        <class>messagebird_smsconnector/observer</class>
+                        <type>singleton</type>
+                        <method>orderStatusChanged</method>
+                    </messagebird_smsconnector_model_observer>
+                </observers>
+            </sales_order_save_after>
+        </events>
+        <blocks>
+            <messagebird>
+                <class>MessageBird_SmsConnector_Block</class>
+            </messagebird>
+            <messagebird_smsconnector>
+                <class>MessageBird_SmsConnector_Block</class>
+            </messagebird_smsconnector>
+        </blocks>
+    </global>
+</config>

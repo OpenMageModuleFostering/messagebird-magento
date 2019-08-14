@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/messagebird-magento",
+    "type": "magento-module",
+    "license": "BSD-2",
+    "homepage": "",
+    "description": "Use the power of SMS to increase customer happiness. Update customers on new orders, changes and shipments.",
+    "authors": [
+    {
+        "name": "MessageBird",
+        "email": "support@messagebird.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}
